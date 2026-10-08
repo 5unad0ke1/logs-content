@@ -1,12 +1,11 @@
 name: Deploy
 
-# 記事の push、システム(logs-site)からの通知、手動実行のどれでも、
-# 「システムを取得 → この記事リポジトリを content/ に置く → ビルド → Pages に公開」する。
+# 記事の push か手動実行で、
+# 「システム(logs-site の main)を取得 → この記事リポジトリを content/ に置く → ビルド → Pages に公開」する。
+# システムだけ更新したときは、このワークフローを手動実行(workflow_dispatch)して反映する。
 on:
   push:
     branches: [main]
-  repository_dispatch:
-    types: [system-updated]
   workflow_dispatch:
 
 permissions:

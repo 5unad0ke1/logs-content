@@ -2,7 +2,8 @@
 
 [砂時計/log](https://logs.sunadokei.dev) の記事データ。ブログシステムは [5unad0ke1/logs-site](https://github.com/5unad0ke1/logs-site)。
 
-`main` に push すると GitHub Actions(`.github/workflows/deploy.yml`)が logs-site を取得してビルドし、GitHub Pages に公開する。
+`main` に push すると GitHub Actions(`.github/workflows/deploy.yml`)が logs-site の `main` を取得してビルドし、GitHub Pages に公開する。
+logs-site(システム)だけ更新したときは、Actions の Deploy を手動実行(Run workflow)して反映する。
 
 ## ローカルで書く
 
