@@ -37,6 +37,20 @@ draft: true # 任意。true だと本番に出ない(npm run dev では見える
 ---
 ```
 
+### 外部の記事(Zenn など)を一覧に並べる
+
+本文は書かず、frontmatter に `externalUrl` を入れる。一覧ではそこへ(別タブで)飛び、サイト内のページは作らない。前後記事のナビにも入らない。RSS にはリンク先を外部 URL にして載る。
+
+```yaml
+# posts/zenn-ugui-design/index.md(フォルダ名は自由)
+---
+title: Unity uGUIで挑戦したいUI設計 [経験談]
+date: 2025-10-20T11:03:40+09:00
+tags: [unity, ugui]
+externalUrl: https://zenn.dev/5unad0ke1/articles/56c4ecd49f3491
+---
+```
+
 ### 使えるコンポーネント(import 不要)
 
 ```mdx
