@@ -39,7 +39,7 @@ draft: true # 任意。true だと本番に出ない(npm run dev では見える
 
 ### 外部の記事(Zenn など)を一覧に並べる
 
-本文は書かず、frontmatter に `externalUrl` を入れる。一覧ではそこへ(別タブで)飛び、サイト内のページは作らない。前後記事のナビにも入らない。RSS にはリンク先を外部 URL にして載る。
+本文は書かず、frontmatter に `externalUrl` を入れる(Zenn・Qiita・Docswell など)。一覧の出典はホスト名の先頭から自動で付く(zenn.dev → zenn、www.docswell.com → docswell)。一覧ではそこへ(別タブで)飛び、サイト内のページは作らない。前後記事のナビにも入らない。RSS にはリンク先を外部 URL にして載る。
 
 ```yaml
 # posts/zenn-ugui-design/index.md(フォルダ名は自由)
