@@ -1,0 +1,72 @@
+name: Deploy
+
+# 記事の push、システム(logs-site)からの通知、手動実行のどれでも、
+# 「システムを取得 → この記事リポジトリを content/ に置く → ビルド → Pages に公開」する。
+on:
+  push:
+    branches: [main]
+  repository_dispatch:
+    types: [system-updated]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout system (logs-site)
+        uses: actions/checkout@v7
+        with:
+          repository: 5unad0ke1/logs-site
+          ref: main
+          path: system
+
+      - name: Checkout content (this repository)
+        uses: actions/checkout@v7
+        with:
+          path: system/content
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: system/package-lock.json
+
+      # 最適化済み画像のキャッシュ(記事の画像が変わらなければ再生成しない)
+      - name: Cache Astro assets
+        uses: actions/cache@v6
+        with:
+          path: system/node_modules/.astro
+          key: astro-${{ hashFiles('system/content/posts/**') }}
+          restore-keys: astro-
+
+      - name: Install
+        working-directory: system
+        run: npm ci
+
+      - name: Build
+        working-directory: system
+        run: npm run build
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: system/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
